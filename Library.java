@@ -1,9 +1,25 @@
 public class Library {
     String location;
-    String shelfs;
-    public Library(String location, String shelfs){
+    int shelfs;
+    public Library(String location, int shelfs){
         this.location = location;
         this.shelfs = shelfs;
         
+    }
+
+    public void setLocation(String location){
+        this.location = location;
+    }
+
+    public String getLocation(){
+        return this.location;
+    }
+
+    public void setShelfs(int shelfs){
+        this.shelfs = shelfs;
+    }
+
+    public int getShelfs(){
+        return this.shelfs;
     }
 }
