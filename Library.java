@@ -1,6 +1,9 @@
+import java.util.ArrayList;
+
 public class Library {
     String location;
     int shelfs;
+    ArrayList<Book> books = new ArrayList<>();
     public Library(String location, int shelfs){
         this.location = location;
         this.shelfs = shelfs;

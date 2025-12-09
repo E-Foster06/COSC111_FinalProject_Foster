@@ -3,16 +3,16 @@ public class Book {
     String author;
     int length;
     // String location;
-    Library location;
+    Library location; // library object
     boolean available = true;
     String borower;
     String genre;
-    public Book(String name, String author) {
+    public Book(String name, String author) { // constructor
         this.name = name;
         this.author = author;
     }
 
-    public Book(String name, String author, Library location){
+    public Book(String name, String author, Library location){ // constructor
         this.name = name;
         this.author = author;
         this.location = location;
@@ -74,9 +74,10 @@ public class Book {
     }
 
     public void getInfo() {
-        System.out.println(name);
-        System.out.println(author);
+        System.out.println("title: " + name);
+        System.out.println("author: " + author);
         System.out.println(length);
+        System.out.println(available);
     }
     
 }
