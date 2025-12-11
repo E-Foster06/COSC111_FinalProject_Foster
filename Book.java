@@ -33,12 +33,12 @@ public class Book {
         return this.name;
     }
 
-    public void getAuthor(String author){
-        this.author = author;
+    public String getAuthor(){
+        return author;
     }
-
-    public String setAuthor(){
-        return this.author;
+ 
+    public void setAuthor(String author){
+        this.author = author;
     }
 
     public void setLocation(Library location){
@@ -76,8 +76,11 @@ public class Book {
     public void getInfo() {
         System.out.println("title: " + name);
         System.out.println("author: " + author);
-        System.out.println(length);
-        System.out.println(available);
+        System.out.println("length: " + length);
+        System.out.println("is available: " + available);
+        System.out.println("located at: " + location);
+        System.out.println("Borrower: " + borower);
+        System.out.println("genre: " + genre);
     }
     
 }

@@ -25,4 +25,24 @@ public class Library {
     public int getShelfs(){
         return this.shelfs;
     }
+
+    public void addBook(Book book) {
+        books.add(book);
+    }
+
+    public void removeBook(String title) {
+        int index = -1;
+        for(int i = 0; i < books.size(); i ++) {
+            String current = books.get(i).getName();
+            current = current.toLowerCase();
+            title = title.toLowerCase();
+            if (current.equalsIgnoreCase(title)) {
+                index = i;
+                System.out.println("Book " + books.get(index).getName() + " has been removed");
+                books.remove(index);
+            } else {
+                System.out.println("Book not found");
+            }
+        }
+    }
 }
