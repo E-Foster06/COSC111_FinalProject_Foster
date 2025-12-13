@@ -18,6 +18,17 @@ public class Book {
         this.location = location;
     }
 
+    public Book(String name, String author, int length, Library location, Boolean available, String borrower, String genre) { // constructor
+        this.name = name;
+        this.author = author;
+        this.location = location;
+        this.length = length;
+        this.available = available;
+        this.borower = borrower;
+        this.genre = genre;
+
+    }
+
     public void setLength(int lenght) {
         this.length = lenght;
     }

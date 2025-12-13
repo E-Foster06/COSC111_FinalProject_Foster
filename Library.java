@@ -10,6 +10,10 @@ public class Library {
         
     }
 
+    public Library(String location){
+        this.location = location;
+    }
+
     public void setLocation(String location){
         this.location = location;
     }
@@ -31,7 +35,7 @@ public class Library {
     }
 
     public void removeBook(String title) {
-        int index = -1;
+        int index; // = -1;
         for(int i = 0; i < books.size(); i ++) {
             String current = books.get(i).getName();
             current = current.toLowerCase();

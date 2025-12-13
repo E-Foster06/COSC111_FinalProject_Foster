@@ -1,3 +1,12 @@
+/**
+ * COSC 111 - Fall 2025
+ * @author: Evelynn Foster
+ * @version: 12/13/25 
+ * Library mangment sofware
+ */
+import java.io.File;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Scanner;
 public class Managment {
@@ -23,10 +32,11 @@ public class Managment {
      */
     public static Library addLibrary(Scanner kb) {
         System.out.print("Library location: ");
-        String location = kb.next();
-        System.out.print("Number of shelfs: ");
-        int shelfs = kb.nextInt();
-        Library library = new Library(location, shelfs);
+        kb.nextLine();
+        String location = kb.nextLine();
+        // System.out.print("Number of shelfs: ");
+        // int shelfs = kb.nextInt();
+        Library library = new Library(location);
         return library;
     }
 
@@ -49,6 +59,11 @@ public class Managment {
         return index;
     }
 
+    /** searchLibrary(ArrayList<Library> libraryArray, String location) - search an array list of library objects by their location
+     * @param libraryArray - a libaray array list
+     * @paramm location - the searched for item
+     * @return index - the index of the library object with the location string
+     */
     public static int searchLibrary(ArrayList<Library> libraryArray, String location) {
         int index = -1;
         for(int i = 0; i < libraryArray.size(); i ++) {
@@ -63,67 +78,185 @@ public class Managment {
         return index;
     }
 
+    /** updateBook(ArrayList<Book> bookArray, ArrayList<Library> libraryArray, String title, Scanner kb) - update the param of book objects using a menu
+     * @param bookArray - an array list of book objects
+     * @param libraryArray - an array list of library objects
+     * @param title - the name of the book object
+     * @param kb - a scanner object reading keyboard input
+     */
     public static void updateBook(ArrayList<Book> bookArray, ArrayList<Library> libraryArray, String title, Scanner kb) {
-        int index = searchBook(bookArray, title);
+        int index = searchBook(bookArray, title); // find index of book to update
         int choice;
-        if (index == -1) {
+        if (index == -1) { // error handling
             System.out.println("Book not found");
         } else {
-        bookArray.get(index).getInfo();
-        do{
-            printUpdateMenu();
+        bookArray.get(index).getInfo(); // show known info for user
+        do{ // do while not 9
+            printUpdateMenu(); // print menu methods
             choice = readMenuChoice(kb);
             switch (choice) {
-                case 1:
+                case 1: // update title
                     System.out.println("New title: ");
                     kb.nextLine();
                     String newTitle = kb.nextLine();
                     bookArray.get(index).setName(newTitle);
                     break;
-                case 2:
+                case 2: // update author
                     System.out.println("New Author: ");
                     kb.nextLine();
                     String newAuthor = kb.nextLine();
                     bookArray.get(index).setAuthor(newAuthor);
                     break;
-                case 3:
+                case 3: // set length
                     System.out.println("Lenght: ");
                     int newLength = kb.nextInt();
                     bookArray.get(index).setLength(newLength);
                     break;
-                case 4:
+                case 4: // set library object location
                     System.out.println("Location: ");
                     kb.nextLine();
                     String location = kb.nextLine();
-                    int libraryIndex = searchLibrary(libraryArray, location);
-                    if (libraryIndex == -1) {
+                    int libraryIndex = searchLibrary(libraryArray, location); // find library index
+                    if (libraryIndex == -1) { // error handling
                         System.out.println("Library not found");
-                    } else {
+                    } else { // add book to library and tell the user that and update the param
                         libraryArray.get(libraryIndex).addBook(bookArray.get(index));
                         System.out.println("Book " + bookArray.get(index).getName() + " has been added too library at " + libraryArray.get(libraryIndex).getLocation());
                     }
                     break;
-                case 5:
+                case 5: // set borrower
                     System.out.println("Update borrower: ");
                     kb.nextLine();
                     String newBorrower = kb.nextLine();
                     bookArray.get(index).setBorower(newBorrower);
                     break;
-                case 6:
+                case 6: // set genre
                     System.out.println("Set genre: ");
                     kb.nextLine();
                     String newGenre = kb.nextLine();
                     bookArray.get(index).setGenre(newGenre);
                     break;
             }
-        } while(choice != 9);
+        } while(choice != 9); // kept at 9 for menu consistancy
         
         }
+    }
+
+    /** printBookArray(ArrayList<Book> bookArray) - prints an arrayList of book objects with params
+     * @param bookArray - an array list of book objects
+     */
+    public static void printBookArray(ArrayList<Book> bookArray){
+        for(int i = 0; i < bookArray.size(); i++) {
+            System.out.println("===============================");
+            bookArray.get(i).getInfo();
+            System.out.println("===============================");
+        }
+    }
+
+    public static void saveLoad(ArrayList<Book> bookArray, ArrayList<Library> libraryArray, Scanner kb) {
+        int choice;
+        do {
+            printSaveLoadMenu();
+            choice = readMenuChoice(kb);
+            switch (choice) {
+                case 1: // save
+                    try {
+                        PrintWriter writer = new PrintWriter("LibrarySaveFile.txt");
+                        writer.println("Librarys");
+                        for(int i = 0; i < libraryArray.size(); i ++) {
+                            writer.println(libraryArray.get(i).getLocation());
+                            // writer.println("Stop");
+                        }
+                        
+                        writer.println("Books");
+                        for (int i = 0; i < bookArray.size(); i ++) {
+                            writer.println(bookArray.get(i).getName());
+                            writer.println(bookArray.get(i).getAuthor());
+                            writer.println(bookArray.get(i).getLength());
+                            String libLocation = "NONE";
+                            if (bookArray.get(i).getLocation() != null) {
+                                libLocation = bookArray.get(i).getLocation().getLocation();
+                            }
+                            writer.println(libLocation);
+                            writer.println(bookArray.get(i).getAvailable());
+                            writer.println(bookArray.get(i).getBorower());
+                            writer.println(bookArray.get(i).getGenre());
+                            writer.println("Stop");
+                        }
+                        
+                        writer.close();
+
+                    } catch (IOException e) {
+                        System.out.println("Error when saving");
+                    }
+                    break;
+                case 2: // load
+                    try {
+                        File file = new File("LibrarySaveFile.txt");
+                        Scanner reader = new Scanner(file);
+                        if (!reader.hasNextLine() || !reader.nextLine().equals("Librarys")) {
+                            System.out.println("failed loading file");
+                        }
+                        while (reader.hasNextLine()) {
+                            String line = reader.nextLine().trim();
+                            if (line.equals("Books")){
+                                break;
+                            }
+                            
+                            Library library = new Library(line);
+                            libraryArray.add(library);
+                        }
+
+                        while (reader.hasNextLine()) {
+                            String name = reader.nextLine().trim();
+                            if (name.equals("Stop") || name.isEmpty()) continue;
+                            String author = reader.nextLine().trim();
+                            int length = Integer.parseInt(reader.nextLine().trim());
+                            String libLocation = reader.nextLine().trim();
+                            boolean available = Boolean.parseBoolean(reader.nextLine().trim());
+                            String borrower = reader.nextLine().trim();
+                            String genre = reader.nextLine().trim();
+
+                            // consume book Stop
+                            reader.nextLine();
+
+                            Library location = null;
+                            if (!libLocation.equals("NONE")) {
+                                int libIndex = searchLibrary(libraryArray, libLocation);
+                                if (libIndex != -1) {
+                                    location = libraryArray.get(libIndex).getLocation();
+                                }
+                            }
+
+                            Book book = new Book(name, author, length, location, available, borrower, genre);
+                            bookArray.add(book);
+                            if (location != null) {
+                                location.addBook(book);
+                            }
+
+                        }
+                        System.out.println("Loaded");
+                        reader.close();
+
+                    } catch (IOException e) {
+                        System.out.println("Error loading file");
+                    }
+                    break;
+            }
+        } while (choice != 9);
     }
 
     public static int readMenuChoice(Scanner kb){
         int choice = kb.nextInt();
         return choice;
+    }
+
+    public static void printSaveLoadMenu() {
+        System.out.println("===============================");
+        System.out.println("1.) Save");
+        System.out.println("2.) Load");
+        System.out.println("9.) Exit");
+        System.out.println("===============================");
     }
 
     public static void printUpdateMenu(){
@@ -146,7 +279,7 @@ public class Managment {
             System.out.println("3.) return");
             System.out.println("4.) update book");
             System.out.println("5.) Search");
-            System.out.println("6.) see book info"); // maybe redundent
+            System.out.println("6.) Save / Load"); 
             System.out.println("7.) cataloge");
             System.out.println("8.) add library");
             System.out.println("9.) exit");
@@ -164,65 +297,71 @@ public class Managment {
             printMenuMain();
             choice = readMenuChoice(kb);
             switch (choice) {
-                case 1: 
+                case 1: // adding a book with the addbook method
                     kb.nextLine();
                     bookArray.add(addBook(kb));
                     // System.out.println(bookArray);
                     break;
-                case 2:
+                case 2: // checkout a book
                     System.out.print("Book title: ");
                     kb.nextLine();
-                    String checkoutTitle = kb.next();
-                    searchedIndex = searchBook(bookArray, checkoutTitle);
-                    if (searchedIndex == -1) {
+                    String checkoutTitle = kb.nextLine();
+                    System.out.print("Borrower: ");
+                    kb.nextLine();
+                    String borrower = kb.nextLine();
+                    searchedIndex = searchBook(bookArray, checkoutTitle); // find index of book to update
+                    if (searchedIndex == -1) { // error handling
                         System.out.println("Book not found");
                     } else if (bookArray.get(searchedIndex).getAvailable() == false) {
-                        System.out.println("Book: " + checkoutTitle + " is not available");
+                        System.out.println("Book: " + checkoutTitle + " is not available"); // error handling
                     }
-                    else {
+                    else { // update params and give user feedback
                     bookArray.get(searchedIndex).setAvailable(false);
+                    bookArray.get(searchedIndex).setBorower(borrower);
                     System.out.println("Book: " + checkoutTitle + " Has been checked out");
                     }
-                    break;                    
-                case 3:
+                    break;                
+                case 3: // return a book
                     System.out.print("Book title: ");
                     kb.nextLine();
-                    String returnTitle = kb.next();
-                    searchedIndex = searchBook(bookArray, returnTitle);
-                    if (searchedIndex == -1) {
+                    String returnTitle = kb.nextLine();
+                    searchedIndex = searchBook(bookArray, returnTitle); // find index of book to update
+                    if (searchedIndex == -1) { // error handling
                         System.out.println("Book not found");
                     } else if (bookArray.get(searchedIndex).getAvailable() == true) {
-                        System.out.println("Book: " + returnTitle + " was already returned");
+                        System.out.println("Book: " + returnTitle + " was already returned"); // error handling
                     }
-                    else {
-                    bookArray.get(searchedIndex).setAvailable(true);
+                    else { // update params and give user feedback
+                    bookArray.get(searchedIndex).setAvailable(true); 
+                    bookArray.get(searchedIndex).setBorower(null);
                     System.out.println("Book: " + returnTitle + " Has been returned");
                     }
                     break;
-                case 4:
+                case 4: // upadate book information
                     System.out.print("Book title: ");
                     kb.nextLine();
                     String updateTitle = kb.nextLine();
-                    updateBook(bookArray, libraryArray, updateTitle, kb);
+                    updateBook(bookArray, libraryArray, updateTitle, kb); // update book method
                     break;
-                case 5:
+                case 5: // search the book array for a title
                     System.out.println("Search for a book");
                     System.out.print("Book title: ");
                     kb.nextLine();
                     String searchTitle = kb.nextLine();
-                    searchedIndex = searchBook(bookArray, searchTitle);
+                    searchedIndex = searchBook(bookArray, searchTitle); // find index of book
                     if (searchedIndex == -1) {
-                        System.out.println("Book not found");
+                        System.out.println("Book not found"); // error catch
                     } else {
-                    bookArray.get(searchedIndex).getInfo();
+                    bookArray.get(searchedIndex).getInfo(); // print information
                     }
                     break;
-                case 6:
-
+                case 6: // save / load
+                    saveLoad(bookArray, libraryArray, kb);
                     break;
-                case 7:
+                case 7: // prints all books as as if they were searched
+                    printBookArray(bookArray);
                     break;
-                case 8:
+                case 8: // create a library object 
                     libraryArray.add(addLibrary(kb));
                     break;
                 
