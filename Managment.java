@@ -224,7 +224,7 @@ public class Managment {
                             if (!libLocation.equals("NONE")) {
                                 int libIndex = searchLibrary(libraryArray, libLocation);
                                 if (libIndex != -1) {
-                                    location = libraryArray.get(libIndex).getLocation();
+                                    location = libraryArray.get(libIndex);
                                 }
                             }
 

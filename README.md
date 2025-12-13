@@ -4,10 +4,12 @@
 ## Version: Fall 2025
 
 ### description: 
-This is the final project for COSC 111 that demonstrates my mastery of objecs, classes, methods, and basic java concepts. It simulates a library application with a lot of functonality.
+This is the final project for COSC 111 that demonstrates my mastery of objecs, classes, methods, and basic java concepts. The application simulates a library system, allowing users to manage books and libraries, track checkouts, and update book information.
 
 ### How to run my program: 
-Run the java program (Managment.java) either from an ide or from your terminal. Menues accept only the listed inputs (intagers). When prompted for other information follow the prompt on what inputs will be accepted
+#### dependancys : Java 8 +
+Run the java program (Managment.java) either from an ide or from your terminal. Menus always expect an intager input, follow on screen prompts for other text inputs (Titles, Authors, Borrowers, etc.).
 
 ### Short summary / features: 
-This project has features including book location managment, checkout tracking, and calaloge searching.
+This program has many features, search functionality for books by title, checkout and return with borrower information storage, a catalog view of all books and their information, the ability to save and load books and their locations and librarys in a .txt file.
+
