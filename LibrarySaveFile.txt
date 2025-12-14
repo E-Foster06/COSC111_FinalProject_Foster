@@ -1,0 +1,157 @@
+Librarys
+Downtown Library
+Campus Library
+Eastside Branch
+Books
+The Hunger Games
+Suzanne Collins
+374
+Downtown Library
+false
+null
+Dystopian
+Stop
+Catching Fire
+Suzanne Collins
+391
+Downtown Library
+true
+null
+Dystopian
+Stop
+Mockingjay
+Suzanne Collins
+390
+Downtown Library
+true
+null
+Dystopian
+Stop
+Divergent
+Veronica Roth
+487
+Campus Library
+false
+null
+Science Fiction
+Stop
+Insurgent
+Veronica Roth
+525
+Campus Library
+true
+null
+Science Fiction
+Stop
+Allegiant
+Veronica Roth
+526
+Campus Library
+true
+null
+Science Fiction
+Stop
+The Fault in Our Stars
+John Green
+313
+NONE
+true
+null
+Romance
+Stop
+Looking for Alaska
+John Green
+221
+NONE
+true
+null
+Drama
+Stop
+Percy Jackson and the Lightning Thief
+Rick Riordan
+377
+Eastside Branch
+false
+null
+Fantasy
+Stop
+The Sea of Monsters
+Rick Riordan
+279
+Eastside Branch
+true
+null
+Fantasy
+Stop
+The Titan's Curse
+Rick Riordan
+312
+Eastside Branch
+true
+null
+Fantasy
+Stop
+The Maze Runner
+James Dashner
+375
+Downtown Library
+false
+null
+Science Fiction
+Stop
+The Scorch Trials
+James Dashner
+362
+Downtown Library
+true
+null
+Science Fiction
+Stop
+The Death Cure
+James Dashner
+325
+Downtown Library
+true
+null
+Science Fiction
+Stop
+Six of Crows
+Leigh Bardugo
+465
+Campus Library
+false
+null
+Fantasy
+Stop
+Crooked Kingdom
+Leigh Bardugo
+536
+Campus Library
+true
+null
+Fantasy
+Stop
+Shadow and Bone
+Leigh Bardugo
+358
+Campus Library
+true
+null
+Fantasy
+Stop
+Red Queen
+Victoria Aveyard
+383
+Eastside Branch
+false
+null
+Fantasy
+Stop
+Throne of Glass
+Sarah J. Maas
+432
+Eastside Branch
+true
+null
+Fantasy
+Stop

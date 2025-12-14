@@ -16,13 +16,11 @@ public class Managment {
      * @return book - a book object
      */
     public static Book addBook(Scanner kb) {
-        // Scanner kb = new Scanner(System.in);
         System.out.print("Book Title: ");
         String title = kb.nextLine();
         System.out.print("Book Author: ");
         String author = kb.nextLine();
         Book book = new Book(title, author);
-        // book.getName();
         return book;
     }
 
@@ -34,8 +32,6 @@ public class Managment {
         System.out.print("Library location: ");
         kb.nextLine();
         String location = kb.nextLine();
-        // System.out.print("Number of shelfs: ");
-        // int shelfs = kb.nextInt();
         Library library = new Library(location);
         return library;
     }
@@ -46,7 +42,7 @@ public class Managment {
      * @return index - the index of the searched book in the array
      */
     public static int searchBook(ArrayList<Book> bookArray, String title) {
-        int index = -1;
+        int index = -1; // default for errors
         for(int i = 0; i < bookArray.size(); i ++) {
             String current = bookArray.get(i).getName();
             current = current.toLowerCase();
@@ -65,7 +61,7 @@ public class Managment {
      * @return index - the index of the library object with the location string
      */
     public static int searchLibrary(ArrayList<Library> libraryArray, String location) {
-        int index = -1;
+        int index = -1; // default for errors
         for(int i = 0; i < libraryArray.size(); i ++) {
             String current = libraryArray.get(i).getLocation();
             current = current.toLowerCase();
@@ -96,24 +92,24 @@ public class Managment {
             choice = readMenuChoice(kb);
             switch (choice) {
                 case 1: // update title
-                    System.out.println("New title: ");
+                    System.out.print("New Title: ");
                     kb.nextLine();
                     String newTitle = kb.nextLine();
                     bookArray.get(index).setName(newTitle);
                     break;
                 case 2: // update author
-                    System.out.println("New Author: ");
+                    System.out.print("New Author: ");
                     kb.nextLine();
                     String newAuthor = kb.nextLine();
                     bookArray.get(index).setAuthor(newAuthor);
                     break;
                 case 3: // set length
-                    System.out.println("Lenght: ");
+                    System.out.print("Length: ");
                     int newLength = kb.nextInt();
                     bookArray.get(index).setLength(newLength);
                     break;
                 case 4: // set library object location
-                    System.out.println("Location: ");
+                    System.out.print("Location: ");
                     kb.nextLine();
                     String location = kb.nextLine();
                     int libraryIndex = searchLibrary(libraryArray, location); // find library index
@@ -125,13 +121,13 @@ public class Managment {
                     }
                     break;
                 case 5: // set borrower
-                    System.out.println("Update borrower: ");
+                    System.out.print("Update Borrower: ");
                     kb.nextLine();
                     String newBorrower = kb.nextLine();
                     bookArray.get(index).setBorower(newBorrower);
                     break;
                 case 6: // set genre
-                    System.out.println("Set genre: ");
+                    System.out.print("Set Genre: ");
                     kb.nextLine();
                     String newGenre = kb.nextLine();
                     bookArray.get(index).setGenre(newGenre);
@@ -153,27 +149,32 @@ public class Managment {
         }
     }
 
+    /** saveLoad(ArrayList<Book> bookArray, ArrayList<Library> libraryArray, Scanner kb) - save and load books and libraries from a save file
+     * @param bookArray - an array list of book objects
+     * @param libraryArray - an array list of library objects
+     * @param kb - a scanner object
+     */
     public static void saveLoad(ArrayList<Book> bookArray, ArrayList<Library> libraryArray, Scanner kb) {
         int choice;
         do {
-            printSaveLoadMenu();
+            printSaveLoadMenu(); 
             choice = readMenuChoice(kb);
             switch (choice) {
                 case 1: // save
                     try {
-                        PrintWriter writer = new PrintWriter("LibrarySaveFile.txt");
-                        writer.println("Librarys");
+                        PrintWriter writer = new PrintWriter("LibrarySaveFile.txt"); 
+                        writer.println("Librarys"); // header check for file reading
                         for(int i = 0; i < libraryArray.size(); i ++) {
-                            writer.println(libraryArray.get(i).getLocation());
-                            // writer.println("Stop");
+                            writer.println(libraryArray.get(i).getLocation()); // saving the libraries
+                            
                         }
                         
-                        writer.println("Books");
+                        writer.println("Books"); // header for loading
                         for (int i = 0; i < bookArray.size(); i ++) {
-                            writer.println(bookArray.get(i).getName());
+                            writer.println(bookArray.get(i).getName()); // print all parms of book objects
                             writer.println(bookArray.get(i).getAuthor());
                             writer.println(bookArray.get(i).getLength());
-                            String libLocation = "NONE";
+                            String libLocation = "NONE"; // default value is null 
                             if (bookArray.get(i).getLocation() != null) {
                                 libLocation = bookArray.get(i).getLocation().getLocation();
                             }
@@ -181,7 +182,7 @@ public class Managment {
                             writer.println(bookArray.get(i).getAvailable());
                             writer.println(bookArray.get(i).getBorower());
                             writer.println(bookArray.get(i).getGenre());
-                            writer.println("Stop");
+                            writer.println("Stop"); // load stop / marks end of object
                         }
                         
                         writer.close();
@@ -194,22 +195,22 @@ public class Managment {
                     try {
                         File file = new File("LibrarySaveFile.txt");
                         Scanner reader = new Scanner(file);
-                        if (!reader.hasNextLine() || !reader.nextLine().equals("Librarys")) {
+                        if (!reader.hasNextLine() || !reader.nextLine().equals("Librarys")) { // error catch
                             System.out.println("failed loading file");
                         }
-                        while (reader.hasNextLine()) {
-                            String line = reader.nextLine().trim();
-                            if (line.equals("Books")){
+                        while (reader.hasNextLine()) { // load library objects
+                            String line = reader.nextLine().trim(); // remove leftover newline/ whitespace
+                            if (line.equals("Books")){ // switch to book loading
                                 break;
                             }
                             
                             Library library = new Library(line);
-                            libraryArray.add(library);
+                            libraryArray.add(library); // add to array
                         }
 
-                        while (reader.hasNextLine()) {
-                            String name = reader.nextLine().trim();
-                            if (name.equals("Stop") || name.isEmpty()) continue;
+                        while (reader.hasNextLine()) { // book loading
+                            String name = reader.nextLine().trim(); //trim to remove whitespace
+                            if (name.equals("Stop") || name.isEmpty()) continue; // marks end of object
                             String author = reader.nextLine().trim();
                             int length = Integer.parseInt(reader.nextLine().trim());
                             String libLocation = reader.nextLine().trim();
@@ -217,21 +218,20 @@ public class Managment {
                             String borrower = reader.nextLine().trim();
                             String genre = reader.nextLine().trim();
 
-                            // consume book Stop
-                            reader.nextLine();
+                            reader.nextLine(); // move past stop marks
 
-                            Library location = null;
-                            if (!libLocation.equals("NONE")) {
-                                int libIndex = searchLibrary(libraryArray, libLocation);
+                            Library location = null; 
+                            if (!libLocation.equals("NONE")) { // if we have a library for this book
+                                int libIndex = searchLibrary(libraryArray, libLocation); // find library
                                 if (libIndex != -1) {
-                                    location = libraryArray.get(libIndex);
+                                    location = libraryArray.get(libIndex); // add library to book
                                 }
                             }
 
-                            Book book = new Book(name, author, length, location, available, borrower, genre);
+                            Book book = new Book(name, author, length, location, available, borrower, genre); // add book to array
                             bookArray.add(book);
                             if (location != null) {
-                                location.addBook(book);
+                                location.addBook(book); // add location to book
                             }
 
                         }
@@ -243,7 +243,7 @@ public class Managment {
                     }
                     break;
             }
-        } while (choice != 9);
+        } while (choice != 9); // menu consitancy
     }
 
     public static int readMenuChoice(Scanner kb){
@@ -257,34 +257,34 @@ public class Managment {
         System.out.println("2.) Load");
         System.out.println("9.) Exit");
         System.out.println("===============================");
+        System.out.print("Option: ");
     }
 
     public static void printUpdateMenu(){
         System.out.println("===============================");
-        System.out.println("1.) title");
-        System.out.println("2.) author");
-        System.out.println("3.) length");
-        System.out.println("4.) location");
-        System.out.println("5.) borrower");
-        System.out.println("6.) genre");
-        System.out.println("9.) exit");
-        System.out.println("===============================");
-        System.out.print("what would you like to update: ");
+        System.out.println("1.) Title");
+        System.out.println("2.) Author");
+        System.out.println("3.) Length");
+        System.out.println("4.) Location");
+        System.out.println("5.) Borrower");
+        System.out.println("6.) Genre");
+        System.out.println("9.) Exit");
+        System.out.print("Option: ");
     }
 
     public static void printMenuMain(){
             System.out.println("===============================");
-            System.out.println("1.) add book");
-            System.out.println("2.) checkout");
-            System.out.println("3.) return");
-            System.out.println("4.) update book");
+            System.out.println("1.) Add Book");
+            System.out.println("2.) Checkout");
+            System.out.println("3.) Return");
+            System.out.println("4.) Update Book");
             System.out.println("5.) Search");
-            System.out.println("6.) Save / Load"); 
-            System.out.println("7.) cataloge");
-            System.out.println("8.) add library");
-            System.out.println("9.) exit");
+            System.out.println("6.) Save - Load"); 
+            System.out.println("7.) Cataloge");
+            System.out.println("8.) Add Library");
+            System.out.println("9.) Exit");
             System.out.println("===============================");
-            System.out.print("What: ");
+            System.out.print("Option: ");
     }
     
     public static void main(String[] args) {
@@ -303,11 +303,10 @@ public class Managment {
                     // System.out.println(bookArray);
                     break;
                 case 2: // checkout a book
-                    System.out.print("Book title: ");
+                    System.out.print("Book Title: ");
                     kb.nextLine();
                     String checkoutTitle = kb.nextLine();
                     System.out.print("Borrower: ");
-                    kb.nextLine();
                     String borrower = kb.nextLine();
                     searchedIndex = searchBook(bookArray, checkoutTitle); // find index of book to update
                     if (searchedIndex == -1) { // error handling
@@ -318,11 +317,11 @@ public class Managment {
                     else { // update params and give user feedback
                     bookArray.get(searchedIndex).setAvailable(false);
                     bookArray.get(searchedIndex).setBorower(borrower);
-                    System.out.println("Book: " + checkoutTitle + " Has been checked out");
+                    System.out.println("Book: " + checkoutTitle + " has been checked out");
                     }
                     break;                
                 case 3: // return a book
-                    System.out.print("Book title: ");
+                    System.out.print("Book Title: ");
                     kb.nextLine();
                     String returnTitle = kb.nextLine();
                     searchedIndex = searchBook(bookArray, returnTitle); // find index of book to update
@@ -334,18 +333,18 @@ public class Managment {
                     else { // update params and give user feedback
                     bookArray.get(searchedIndex).setAvailable(true); 
                     bookArray.get(searchedIndex).setBorower(null);
-                    System.out.println("Book: " + returnTitle + " Has been returned");
+                    System.out.println("Book: " + returnTitle + " has been returned");
                     }
                     break;
                 case 4: // upadate book information
-                    System.out.print("Book title: ");
+                    System.out.print("Book Title: ");
                     kb.nextLine();
                     String updateTitle = kb.nextLine();
                     updateBook(bookArray, libraryArray, updateTitle, kb); // update book method
                     break;
                 case 5: // search the book array for a title
-                    System.out.println("Search for a book");
-                    System.out.print("Book title: ");
+                    System.out.println(" -- Search for a book -- ");
+                    System.out.print("Book Title: ");
                     kb.nextLine();
                     String searchTitle = kb.nextLine();
                     searchedIndex = searchBook(bookArray, searchTitle); // find index of book

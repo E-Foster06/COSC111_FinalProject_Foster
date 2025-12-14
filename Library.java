@@ -7,7 +7,6 @@ public class Library {
     public Library(String location, int shelfs){
         this.location = location;
         this.shelfs = shelfs;
-        
     }
 
     public Library(String location){

@@ -85,13 +85,13 @@ public class Book {
     }
 
     public void getInfo() {
-        System.out.println("title: " + name);
-        System.out.println("author: " + author);
-        System.out.println("length: " + length);
-        System.out.println("is available: " + available);
-        System.out.println("located at: " + location);
+        System.out.println("Title: " + name);
+        System.out.println("Author: " + author);
+        System.out.println("Length: " + length);
+        System.out.println("Available: " + available);
+        System.out.println("Location: " + location);
         System.out.println("Borrower: " + borower);
-        System.out.println("genre: " + genre);
+        System.out.println("Genre: " + genre);
     }
     
 }
